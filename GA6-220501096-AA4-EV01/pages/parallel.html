@@ -1,0 +1,52 @@
+<!-- Vista: Ejecución en Paralelo -->
+<div class="topic-card">
+
+    <h2>9. Ejecución en Paralelo</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>Cuando la suite de pruebas crece, el tiempo de ejecución se dispara ("ejecutar en paralelo"). Cucumber
+                junto a Maven Surefire / Failsafe nos permite ejecutar múltiples escenarios al mismo tiempo alojando un
+                hilo (thread) por escenario web.</p>
+
+            <h3>Opción 1: Configurar <code>pom.xml</code></h3>
+            <p>Añade o modifica la configuración del plugin de pruebas (Surefire o Failsafe) para habilitar hilos
+                concurrentes basados en los métodos:</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">⚙️ pom.xml</span>
+                </div>
+                <pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0-M7&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;parallel&gt;methods&lt;/parallel&gt;
+        &lt;!-- Usa 4 procesos concurrentes --&gt;
+        &lt;threadCount&gt;4&lt;/threadCount&gt;
+        &lt;perCoreThreadCount&gt;false&lt;/perCoreThreadCount&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+            </div>
+
+            <h3>Consideraciones Importantes ⚠️</h3>
+            <ul>
+                <li><strong>Aislamiento Total:</strong> Asegúrate de que el estado de una prueba no afecte a otra. ¡El
+                    WebDriver de un hilo no puede ser compartido con el de otro hilo! Utiliza
+                    <code>ThreadLocal&lt;WebDriver&gt;</code> si manejas un singleton de driver.</li>
+                <li><strong>Bases de Datos Vivas:</strong> Si tus pruebas insertan/borran registros en una BB.DD.,
+                    cuidado con los conflictos causados por hilos concurrente modificando la misma tabla.</li>
+                <li><strong>Carga del Sistema:</strong> Levantar 10 Chrome browsers a la vez consumirá mucha RAM / CPU,
+                    dimensiona el <code>threadCount</code> sabiamente.</li>
+            </ul>
+
+            <p>Después de configurar, si tienes 10 escenarios (Features), al escribir <code>mvn test</code> notarás cómo
+                se abren simultáneamente varias ventanas del explorador.</p>
+
+        </div>
+
+    </div>
+</div>

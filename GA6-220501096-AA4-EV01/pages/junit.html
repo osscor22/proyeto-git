@@ -1,0 +1,64 @@
+<!-- Vista: Ejecución con JUnit -->
+<div class="topic-card">
+
+    <h2>6. Ejecución con JUnit (La Clase Runner)</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>Para agrupar, orquestar y ejecutar los archivos <code>.feature</code> y sus respectivos <em>Step
+                    Definitions</em>, utilizamos <strong>JUnit</strong>. Para que JUnit entienda que debe ejecutar casos
+                de Cucumber, creamos una clase especial conocida como el <strong>Runner</strong>.</p>
+
+            <h3>¿Cómo funciona el Runner?</h3>
+            <p>El Runner es una clase Java vacía que utiliza anotaciones específicas en su cabecera para configurar el
+                entorno de ejecución:</p>
+            <ul>
+                <li><code>@RunWith(Cucumber.class)</code>: Le indica a JUnit que debe usar el motor de Cucumber para
+                    ejecutar esta clase.</li>
+                <li><code>@CucumberOptions</code>: Permite pasar opciones de configuración como la ubicación de los
+                    archivos feature, la ubicación de los step definitions (glue), los tags a ejecutar y los plugins
+                    para reportes.</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">🏃 TestRunner.java</span>
+                </div>
+                <pre><code>import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    // Ruta directa a los archivos feature
+    features = "src/test/resources/features",
+    
+    // Paquete donde están los Step Definitions y Hooks
+    glue = "steps",
+    
+    // Filtro para ejecutar solo pruebas con este tag (opcional)
+    tags = "@Regresion",
+    
+    // Generación de un reporte HTML básico
+    plugin = {"pretty", "html:target/cucumber-reports/report.html"},
+    
+    // Validar si están declarados los steps sin ejecutarlos
+    dryRun = false,
+    
+    // Mejora la legibilidad de la salida en consola
+    monochrome = true
+)
+public class TestRunner {
+    // La clase permanece vacía
+}</code></pre>
+            </div>
+
+            <p><strong>¿Cómo ejecutarlo?</strong> Puedes dar clic derecho sobre <code>TestRunner.java</code> en tu IDE y
+                seleccionar <strong>"Run 'TestRunner'"</strong>, o usar la consola de Maven:
+                <code>mvn clean test</code>.</p>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<!-- Vista: Cross-Browser Testing -->
+<div class="topic-card">
+
+    <h2>8. Cross-Browser Testing (Múltipes Navegadores)</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>Para probar en Chrome, Firefox, Edge, etc., necesitamos abstraer la inicialización del
+                <code>WebDriver</code> ("ejecutar en otros navegadores"). Ya no usamos directamente
+                <code>new ChromeDriver()</code> en nuestras clases, sino que usamos una clase de fábrica (Factory) o un
+                Hook centralizado.</p>
+
+            <h3>Implementando el Soporte Multibrowser</h3>
+            <p>Puedes leer una variable de entorno para saber qué navegador levantar. Así, se ejecuta globalmente según
+                un parámetro enviado en consola:</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">🔧 BrowserSetup.java</span>
+                </div>
+                <pre><code>import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class BrowserSetup {
+
+    public static WebDriver getDriver() {
+        // Leer variable desde Maven (e.g. mvn test -Dbrowser=firefox)
+        String browser = System.getProperty("browser", "chrome").toLowerCase();
+        
+        WebDriver driver;
+
+        switch (browser) {
+            case "firefox":
+                driver = new FirefoxDriver(); // Selenium Manager se encarga del gecko driver
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            case "chrome":
+            default:
+                driver = new ChromeDriver();
+                break;
+        }
+        
+        driver.manage().window().maximize();
+        return driver;
+    }
+}</code></pre>
+            </div>
+
+            <p><strong>¿Cómo ejecutar desde consola?</strong></p>
+            <ul>
+                <li>Ejecutar Chrome por defecto: <code>mvn clean test</code></li>
+                <li>Ejecutar en Firefox: <code>mvn clean test -Dbrowser=firefox</code></li>
+                <li>Ejecutar en Edge: <code>mvn clean test -Dbrowser=edge</code></li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>

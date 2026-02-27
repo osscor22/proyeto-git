@@ -1,0 +1,56 @@
+<!-- Vista: Step Definitions en Java -->
+<div class="topic-card">
+
+    <h2>4. Step Definitions en Java</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>Cucumber vincula cada frase del archivo <code>.feature</code> a un método Java
+                mediante las anotaciones <code>@Dado</code>, <code>@Cuando</code> y
+                <code>@Entonces</code>. Esos métodos contienen el código Selenium que
+                interactúa con el navegador.
+            </p>
+
+            <p>Crea la clase <code>LoginSteps.java</code> en:<br>
+                <code>src/test/java/steps/</code>
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">☕ LoginSteps.java</span>
+                </div>
+                <pre><code>import io.cucumber.java.es.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class LoginSteps {
+
+    WebDriver driver;
+
+    @Dado("que el usuario navega a la página de login")
+    public void navegarAPaginaLogin() {
+        driver = new ChromeDriver();
+        driver.get("https://ejemplo.com/login");
+    }
+
+    @Cuando("ingresa su usuario {string} y contraseña {string}")
+    public void ingresarCredenciales(String usuario, String clave) {
+        // Selenium: localizar inputs y enviar texto
+    }
+
+    @Entonces("el sistema muestra el panel de control")
+    public void verificarPanelControl() {
+        // Selenium: verificar que el dashboard está visible
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="topic-image">
+            <img src="img/pageObject.png" alt="Ilustración del entorno configurado con Java, IDE y Maven" loading="lazy">
+        </div>
+
+    </div>
+</div>

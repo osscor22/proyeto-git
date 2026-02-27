@@ -1,0 +1,68 @@
+<!-- Vista: Patrón POM -->
+<div class="topic-card">
+
+    <h2>5. Patrón de Diseño POM (Page Object Model)</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>El <strong>Page Object Model (POM)</strong> es un patrón de diseño fundamental en la automatización de
+                pruebas. En lugar de escribir el código de interacción con los elementos directamente dentro de los
+                <em>Step Definitions</em>, se crea una clase separada (una "Página" o "Page") para cada página web o
+                componente de la aplicación.</p>
+
+            <h3>¿Por qué usar POM?</h3>
+            <ul>
+                <li><strong>Mantenibilidad:</strong> Si la UI cambia (ej. un ID o XPath), solo necesitas actualizarlo en
+                    un solo lugar (la clase Page), y no en múltiples Step Definitions.</li>
+                <li><strong>Reusabilidad:</strong> Los métodos de interacción (ej. <code>escribirUsuario()</code>)
+                    pueden ser llamados desde diferentes escenarios de prueba sin duplicar código.</li>
+                <li><strong>Legibilidad:</strong> Los Step Definitions quedan limpios y enfocados en la lógica del test,
+                    dejando la lógica técnica en los Page Objects.</li>
+            </ul>
+
+            <p>Ejemplo de implementación de un Page Object:</p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">🏗 LoginPage.java</span>
+                </div>
+                <pre><code>import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class LoginPage {
+    private WebDriver driver;
+
+    // 1. Localizadores (By)
+    private By txtUsuario = By.id("username");
+    private By txtPassword = By.id("password");
+    private By btnLogin = By.id("login-button");
+
+    // 2. Constructor
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    // 3. Acciones (Métodos)
+    public void ingresarUsuario(String usuario) {
+        driver.findElement(txtUsuario).sendKeys(usuario);
+    }
+
+    public void ingresarPassword(String clave) {
+        driver.findElement(txtPassword).sendKeys(clave);
+    }
+
+    public void darClicEnIngresar() {
+        driver.findElement(btnLogin).click();
+    }
+}</code></pre>
+            </div>
+
+            <p>Ahora, en tu <code>LoginSteps.java</code>, simplemente instanciarías
+                <code>LoginPage page = new LoginPage(driver);</code> y llamarías a
+                <code>page.ingresarUsuario("admin");</code>.</p>
+        </div>
+
+    </div>
+</div>

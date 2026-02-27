@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Tutorial sobre cómo crear un proyecto de automatización con Selenium, Java y Cucumber.">
+    <title>Tutorial: Automatización con Selenium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- ===========================
+         NAVBAR SUPERIOR (igual al ejemplo de referencia)
+    ============================ -->
+    <nav class="top-navbar">
+        <div class="navbar-brand">📘 Tutorial: Automatización con Selenium</div>
+    </nav>
+
+    <!-- ===========================
+         LAYOUT PRINCIPAL: SIDEBAR + CONTENIDO
+    ============================ -->
+    <div class="app-layout">
+
+        <!-- SIDEBAR de navegación fijo a la izquierda -->
+        <aside class="sidebar">
+            <h3 class="sidebar-title">Índice de Contenido</h3>
+
+            <!-- Lista ordenada requerida por la evidencia -->
+            <ol class="sidebar-nav">
+                <li>
+                    <button class="nav-btn active" onclick="loadView('setup', this)">
+                        🛠 Configuración del Entorno
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('dependencies', this)">
+                        📦 Añadiendo Dependencias
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('features', this)">
+                        📄 Archivo Feature (.feature)
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('steps', this)">
+                        ☕ Step Definitions en Java
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('pom', this)">
+                        🏗 Patrón de Diseño POM
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('junit', this)">
+                        🏃 Ejecución con JUnit
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('reports', this)">
+                        📊 Generación de Reportes
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('crossbrowser', this)">
+                        🌐 Cross-Browser Testing
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-btn" onclick="loadView('parallel', this)">
+                        ⚡ Ejecución en Paralelo
+                    </button>
+                </li>
+            </ol>
+        </aside>
+
+        <!-- ÁREA DE CONTENIDO DINÁMICO -->
+        <main class="view-container" id="view-container">
+            <!-- Las vistas se cargan aquí vía JS -->
+        </main>
+
+    </div>
+
+    <!-- Script de navegación (mismo patrón que el ejemplo de referencia) -->
+    <script>
+        /**
+         * Carga dinámicamente una vista HTML dentro del contenedor.
+         * @param {string} view   - nombre del archivo en /pages/ (sin .html)
+         * @param {HTMLElement} btn - botón presionado para marcar como activo
+         */
+        function loadView(view, btn) {
+            // 1. Actualizar estado activo en el sidebar
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            // 2. Mostrar indicador de carga
+            document.getElementById('view-container').innerHTML =
+                '<div class="loading">Cargando sección...</div>';
+
+            // 3. Cargar el HTML mediante fetch
+            fetch(`pages/${view}.html`)
+                .then(res => {
+                    if (!res.ok) throw new Error('No se pudo cargar la vista.');
+                    return res.text();
+                })
+                .then(html => {
+                    document.getElementById('view-container').innerHTML = html;
+                })
+                .catch(err => {
+                    document.getElementById('view-container').innerHTML =
+                        `<div class="error-msg">❌ Error al cargar la sección.<br><small>${err.message}</small></div>`;
+                    console.error('Error cargando vista:', err);
+                });
+        }
+
+        // Cargar vista inicial al abrir la página
+        window.onload = () => loadView('setup', document.querySelector('.nav-btn'));
+    </script>
+
+</body>
+
+</html>

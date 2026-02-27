@@ -1,0 +1,39 @@
+<!-- Vista: Archivo Feature -->
+<div class="topic-card">
+
+    <h2>3. Escribiendo el Archivo Feature</h2>
+    <div class="topic-divider"></div>
+
+    <div class="topic-grid">
+
+        <div class="topic-text">
+            <p>Los archivos <code>.feature</code> son el corazón de Cucumber. Están escritos en
+                lenguaje <strong>Gherkin</strong> y describen el comportamiento del sistema usando
+                palabras clave legibles tanto por el equipo técnico como por negocio.</p>
+
+            <p>Crea el archivo <code>login.feature</code> en la ruta:<br>
+                <code>src/test/resources/features/</code>
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-filename">📄 login.feature</span>
+                </div>
+                <pre><code># language: es
+Característica: Inicio de sesión en el sistema
+
+  Escenario: Ingreso exitoso con credenciales válidas
+    Dado que el usuario navega a la página de login
+    Cuando ingresa su usuario "admin" y contraseña "12345"
+    Y hace clic en el botón de ingresar
+    Entonces el sistema muestra el panel de control</code></pre>
+            </div>
+        </div>
+
+        <div class="topic-image">
+            <img src="img/Cucumber.PNG" alt="Ilustración del entorno configurado con Java, IDE y Maven" loading="lazy">
+
+        </div>
+
+    </div>
+</div>
